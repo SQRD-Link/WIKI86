@@ -1,0 +1,6 @@
+[project]
+site_name = "WIKI86"
+docs_dir = "docs"
+
+[project.theme]
+variant = "modern"  # or "classic" if you want the Material look

@@ -1,0 +1,1620 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="./..">
+      
+      
+        <link rel="next" href="../Training-Portal/Integrating-A-New-App/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.24">
+    
+    
+      
+        <title>A Crash Course in DNS (Domain Name System) - WIKI86</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.28978c9b.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../assets/stylesheets/modern/palette.dfe2e883.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dns-the-internets-address-book" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./.." title="WIKI86" class="md-header__button md-logo" aria-label="WIKI86" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WIKI86
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              A Crash Course in DNS (Domain Name System)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./.." class="md-tabs__link">
+        
+  
+  Welcome to MkDocs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="././" class="md-tabs__link">
+        
+  
+  A Crash Course in DNS (Domain Name System)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Training-Portal/Integrating-A-New-App/" class="md-tabs__link">
+          
+  
+  Training Portal
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./.." title="WIKI86" class="md-nav__button md-logo" aria-label="WIKI86" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    WIKI86
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Crash Course in DNS (Domain Name System)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Crash Course in DNS (Domain Name System)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dns-the-internets-address-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS: The Internet’s Address Book
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-services-provided-by-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Services Provided by DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Services Provided by DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#host-to-ip-address-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host-to-IP address mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-aliasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host aliasing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-to-host-address-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP-to-host address mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-balancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load balancing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Hierarchy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Hierarchy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root DNS Servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-level-domain-tld-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-Level Domain (TLD) DNS servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authoritative-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authoritative DNS servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-dns-servers-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive DNS Servers (Resolver)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-dns-resolution-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How DNS Resolution Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How DNS Resolution Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recursive-query-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive Query Resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caching-in-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching in DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caching in DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-does-dns-caching-occur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where does DNS caching occur?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-resource-records-rrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Resource Records (RRs)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic DNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-and-anycast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS and Anycast
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dnssec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNSSEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-over-https-doh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS-over-HTTPS (DoH)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-over-tls-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS-over-TLS (DoT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-security-threats-to-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Security Threats to DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Security Threats to DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-cache-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Cache Poisoning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributed-denial-of-service-ddos-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed Denial of Service (DDoS) Attacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#man-in-the-middle-mitm-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Man-in-the-Middle (MitM) Attacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Hijacking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-for-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS for IPv6
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Portal
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Portal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Training-Portal/Integrating-A-New-App/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrating a New Application (Package Pro) Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Training-Portal/Technical-Setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Portal Technical Setup &amp; Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Training-Portal/implementation_plan_authentication%20and%20leaderboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Plan: User Tracking &amp; Leaderboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dns-the-internets-address-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS: The Internet’s Address Book
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-services-provided-by-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Services Provided by DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Services Provided by DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#host-to-ip-address-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host-to-IP address mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-aliasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host aliasing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#email-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email Routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip-to-host-address-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP-to-host address mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-balancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Load balancing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Hierarchy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Hierarchy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root DNS Servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#top-level-domain-tld-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top-Level Domain (TLD) DNS servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authoritative-dns-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authoritative DNS servers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recursive-dns-servers-resolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive DNS Servers (Resolver)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-dns-resolution-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How DNS Resolution Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How DNS Resolution Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recursive-query-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recursive Query Resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caching-in-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching in DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caching in DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-does-dns-caching-occur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where does DNS caching occur?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-resource-records-rrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Resource Records (RRs)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic DNS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-and-anycast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS and Anycast
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dnssec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNSSEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-over-https-doh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS-over-HTTPS (DoH)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-over-tls-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS-over-TLS (DoT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-security-threats-to-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Security Threats to DNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Security Threats to DNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dns-cache-poisoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Cache Poisoning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distributed-denial-of-service-ddos-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distributed Denial of Service (DDoS) Attacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#man-in-the-middle-mitm-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Man-in-the-Middle (MitM) Attacks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Hijacking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-for-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS for IPv6
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  <h1>A Crash Course in DNS (Domain Name System)</h1>
+
+<p>What if you woke up tomorrow and could no longer access websites by typing names like google.com or espn.com? Instead, you had to memorize and type a series of numbers just to get online - 172.217.16.206 to check Gmail or 199.181.132.250 to read sports news. Internet browsing would become extremely tedious overnight!</p>
+<p>Luckily, this internet nightmare scenario will never happen as long as DNS keeps running smoothly in the background. DNS, short for Domain Name System, is the essential service that saves us from the huge hassle of memorizing numeric IP addresses. It efficiently matches easy-to-remember domain names with their corresponding IP addresses so we can browse seamlessly.</p>
+<p>In this article, we explore the intricate workings of this crucial internet backbone.</p>
+<h2 id="dns-the-internets-address-book">DNS: The Internet’s Address Book<a class="headerlink" href="#dns-the-internets-address-book" title="Permanent link">&para;</a></h2>
+<p>DNS is a distributed and hierarchical system that acts as the internet's address book. It translates domain names into IP addresses to facilitate efficient communication between devices across the globe. The primary purpose of DNS is to provide a convenient way for users to access websites and resources using easily memorable domain names, while computers and servers use IP addresses for communication behind the scenes. </p>
+<p>The DNS is implemented as an Application layer service. It is implemented by the servers that sit at the network edge rather than routers and switches inside the network. This reflects the internet design philosophy of keeping the network core simple and putting complexity at the network’s edge.</p>
+<h2 id="key-services-provided-by-dns">Key Services Provided by DNS<a class="headerlink" href="#key-services-provided-by-dns" title="Permanent link">&para;</a></h2>
+<p>DNS provides a number of different services to facilitate the functioning of the Internet. Here is a mind map of the services provided by DNS. </p>
+<p>We are going to describe some of the most vital services of DNS below:</p>
+<h3 id="host-to-ip-address-mapping">Host-to-IP address mapping<a class="headerlink" href="#host-to-ip-address-mapping" title="Permanent link">&para;</a></h3>
+<p>DNS maintains a database of domain names and their corresponding IP addresses. This mapping is essential for devices to locate each other on the internet.</p>
+<p>For instance, consider the domain name "<a href="http://www.bytebytego.com">www.bytebytego.com</a>." Host-to-IP address mapping involves determining the IP address associated with this domain, such as "172.67.21.11".</p>
+<h3 id="host-aliasing">Host aliasing<a class="headerlink" href="#host-aliasing" title="Permanent link">&para;</a></h3>
+<p>DNS supports a feature commonly known as host aliasing, enabled through CNAME (Canonical Name) records. This allows a single IP address or primary domain name to be associated with multiple domain name aliases.</p>
+<p>For example, let's consider the primary domain "bytebytego.com". You might want your website to be accessible not just via "bytebytego.com", but also through various aliases like "<a href="http://www.bytebytego.com">www.bytebytego.com</a>", "web.bytebytego.com", and "blog.bytebytego.com". By setting up appropriate CNAME records in DNS, all these aliases can point to the primary domain "bytebytego.com". As a result, users can access your website using any of these domain names, all leading to the same destination IP address.</p>
+<h3 id="email-routing">Email Routing<a class="headerlink" href="#email-routing" title="Permanent link">&para;</a></h3>
+<p>DNS plays a crucial role in email routing through MX records. These records allow a domain to specify which mail servers are responsible for receiving email messages on its behalf. This mechanism enables flexibility in email configurations. </p>
+<p>For example, let's say the primary mail server designated to receive emails for the "bytebytego.com" domain is "mail.bytebytego.com". You might want to have specific email addresses, such as those ending in "@sales.bytebytego.com" or "@support.bytebytego.com", yet still direct all incoming mail for these addresses to the "mail.bytebytego.com" server. By configuring MX records appropriately, emails sent to any of these addresses will route to the designated primary mail server.</p>
+<h3 id="ip-to-host-address-mapping">IP-to-host address mapping<a class="headerlink" href="#ip-to-host-address-mapping" title="Permanent link">&para;</a></h3>
+<p>While DNS is primarily used for translating domain names to IP addresses, it can also perform reverse lookups, translating IP addresses back to domain names. This is useful for security and logging purposes.</p>
+<h3 id="load-balancing">Load balancing<a class="headerlink" href="#load-balancing" title="Permanent link">&para;</a></h3>
+<p>DNS can distribute incoming network traffic across multiple servers by returning different IP addresses in response to the same domain name query. This helps balance the load and improve the performance and reliability of online services.</p>
+<h2 id="dns-hierarchy">DNS Hierarchy<a class="headerlink" href="#dns-hierarchy" title="Permanent link">&para;</a></h2>
+<p>DNS operates as a distributed hierarchical database. The following illustration shows a high-level view of the DNS hierarchy. </p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!P_Ol!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0a1bb2c-a1bc-40ce-abde-6fb9d2a66ce8_1600x570.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!P_Ol!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0a1bb2c-a1bc-40ce-abde-6fb9d2a66ce8_1600x570.png">https://substackcdn.com/image/fetch/$s_!P_Ol!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0a1bb2c-a1bc-40ce-abde-6fb9d2a66ce8_1600x570.png</a>)</p>
+<h3 id="root-dns-servers">Root DNS Servers<a class="headerlink" href="#root-dns-servers" title="Permanent link">&para;</a></h3>
+<p>At the top of the DNS hierarchy are the root servers. The root servers are contacted when a server is not actually able to resolve a name. You can think of it as a first point of contact to get the resolution started. </p>
+<p>Root servers act like the central nervous system of the internet, and as such, security is going to be very important. Much of the infrastructure associated with the root servers is the responsibility of ICANN (Internet Corporation for Assigned Names and Numbers). There are 13 logical root servers around the world, but each of these logical root servers is actually replicated, so corresponding to these 13 logical servers are actually close to a thousand physical servers around the world.</p>
+<h3 id="top-level-domain-tld-dns-servers">Top-Level Domain (TLD) DNS servers<a class="headerlink" href="#top-level-domain-tld-dns-servers" title="Permanent link">&para;</a></h3>
+<p>Moving down a level from the root servers, we find the TLD (Top-Level Domain) servers and each of the servers in the TLD layer is responsible for resolving one of the addresses that have an ending like <strong>.com</strong>, <strong>.edu</strong>, <strong>.net</strong>, and <strong>.org</strong>. </p>
+<p>The Internet Corporation for Assigned Names and Numbers (ICANN) has authority over all TLDs used on the Internet, and it delegates the responsibility of these TLDs to various organizations. For individuals or entities looking to register a new domain under these TLDs, they typically approach Domain Name Registrars, which are accredited entities interfacing with the registries to handle the registration process.</p>
+<h3 id="authoritative-dns-servers">Authoritative DNS servers<a class="headerlink" href="#authoritative-dns-servers" title="Permanent link">&para;</a></h3>
+<p>Authoritative servers are the definitive source for domain name resolutions within their specific domain. They store the actual name-to-IP address mappings for a given domain. While various caching mechanisms exist across the internet to speed up domain name resolutions, it's the authoritative servers that provide the correct and final answer when queried. Domain owners or administrators configure their domain's records, but the actual infrastructure—the DNS servers—is often maintained and operated by DNS hosting providers or registrars like Cloudflare, Namecheap, GoDaddy, and others.</p>
+<h3 id="recursive-dns-servers-resolver">Recursive DNS Servers (Resolver)<a class="headerlink" href="#recursive-dns-servers-resolver" title="Permanent link">&para;</a></h3>
+<p>Recursive servers handle DNS queries from client devices like computers and smartphones. When a device wants to resolve a domain name, it contacts these servers. Acting on behalf of the client, recursive servers traverse the DNS hierarchy, consulting various DNS servers to determine the IP address associated with a domain name. Once they obtain the answer, they return it to the client. For efficiency, recursive servers often cache responses to avoid repeatedly querying the same information.</p>
+<p>Check out the illustration below, it shows the placement of some of the main DNS servers inside the pipeline of a DNS query. </p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!2I4b!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99472ff8-82a1-4365-bb03-c9a00b39e412_1419x336.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!2I4b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99472ff8-82a1-4365-bb03-c9a00b39e412_1419x336.png">https://substackcdn.com/image/fetch/$s_!2I4b!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99472ff8-82a1-4365-bb03-c9a00b39e412_1419x336.png</a>)</p>
+<h2 id="how-dns-resolution-works">How DNS Resolution Works<a class="headerlink" href="#how-dns-resolution-works" title="Permanent link">&para;</a></h2>
+<p>There are two main methods of query resolution in DNS: </p>
+<ul>
+<li>
+<p>Iterative query resolution</p>
+</li>
+<li>
+<p>Recursive query resolution</p>
+</li>
+</ul>
+<p>These methods define how DNS servers interact with each other to find the IP address associated with a given domain name. Here’s a brief overview of each method.</p>
+<p><strong>Iterative Query Resolution</strong></p>
+<p>In iterative query resolution, the DNS server receiving the query provides referrals to the querying server, guiding it through the DNS hierarchy. The querying server actively participates in the process by sending subsequent queries based on the referrals received. </p>
+<p>Let's try to understand the workings of iterative query resolution with the help of an example shown in the illustration below.</p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!eaJb!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F96fbf5fc-bf5d-4047-b058-f48f6f3b3a30_1600x1432.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!eaJb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F96fbf5fc-bf5d-4047-b058-f48f6f3b3a30_1600x1432.png">https://substackcdn.com/image/fetch/$s_!eaJb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F96fbf5fc-bf5d-4047-b058-f48f6f3b3a30_1600x1432.png</a>)</p>
+<p>Suppose the requesting host is making a request to resolve the name <strong>bytebytego.com</strong>. Here’s how this is going to unfold: </p>
+<ol>
+<li>
+<p>The host first sends a query message to the local DNS resolver. The query message contains the hostname to be translated <strong>bytebytego.com</strong></p>
+</li>
+<li>
+<p>If the resolver doesn't have the IP address in its cache, it sends a query to a root DNS server.</p>
+</li>
+<li>
+<p>The root DNS server, recognizing the <strong>.com</strong> suffix, provides a referral to TLD servers responsible for <strong>.com</strong></p>
+</li>
+<li>
+<p>The resolver then sends a new query to one of these TLD servers.</p>
+</li>
+<li>
+<p>The TLD server provides a referral to the authoritative DNS server responsible for <strong>bytebytego.com</strong>.</p>
+</li>
+<li>
+<p>The resolver sends another query to the authoritative DNS server.</p>
+</li>
+<li>
+<p>The authoritative DNS server responds with the IP address of <strong>bytebytego.com</strong></p>
+</li>
+<li>
+<p>The DNS resolver caches this IP address and then returns it to the requesting host.</p>
+</li>
+<li>
+<p>Now, the requesting host makes an HTTP request to the IP address of the <a href="http://www.bytebytego.com">http://www.bytebytego.com</a> web server.</p>
+</li>
+<li>
+<p>The web server returns the webpage for <a href="http://www.bytebytego.com">www.bytebytego.com</a> </p>
+</li>
+</ol>
+<h3 id="recursive-query-resolution">Recursive Query Resolution<a class="headerlink" href="#recursive-query-resolution" title="Permanent link">&para;</a></h3>
+<p>In recursive query resolution, the DNS server receiving the query takes on the responsibility of finding the IP address on behalf of the client. It may itself use iterative queries to navigate through the DNS hierarchy until it reaches the authoritative DNS server for the requested domain. </p>
+<p>Let’s use the previous example and try to resolve the IP address of bytebytego.com using the recursive query resolution as shown in the illustration below:</p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!ZguZ!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23550856-e23b-4372-8422-20630dfea888_1600x1432.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!ZguZ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23550856-e23b-4372-8422-20630dfea888_1600x1432.png">https://substackcdn.com/image/fetch/$s_!ZguZ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F23550856-e23b-4372-8422-20630dfea888_1600x1432.png</a>)</p>
+<p>We have summarized the steps shown in the above illustration as follows: </p>
+<ul>
+<li>
+<p>The client sends a query to the local DNS resolver.</p>
+</li>
+<li>
+<p>The resolver checks its cache for the IP address. If not found, it conducts the necessary queries—possibly iterative ones—interacting with root DNS servers, then TLD DNS servers, and finally authoritative DNS servers until it obtains the IP address.</p>
+</li>
+<li>
+<p>Once found, the resolver caches the IP address and returns it to the client.</p>
+</li>
+<li>
+<p>Subsequent queries for the same domain can be answered directly from the resolver's cache.</p>
+</li>
+</ul>
+<p>Both iterative and recursive query resolution methods are vital to the functioning of the DNS. Recursive queries simplify the process for clients, with the resolver managing the hierarchical queries and caching. Iterative queries involve the querying server actively following referrals to find the IP address.</p>
+<p><strong>Note</strong>: In practice, most client devices send queries to recursive DNS resolvers, which often use a mix of recursive and iterative queries behind the scenes to fetch and cache results, ensuring efficient operation of the global DNS system.</p>
+<h2 id="caching-in-dns">Caching in DNS<a class="headerlink" href="#caching-in-dns" title="Permanent link">&para;</a></h2>
+<p>DNS resolution involves several steps, and to expedite repeated resolutions of the same domain names, the system leverages caching. Caching recently resolved DNS query results can drastically reduce the number of repeated queries to authoritative DNS servers.</p>
+<p>By caching DNS records, the efficiency and speed of DNS resolution is significantly improved. It reduces the need for recursive servers to navigate the entire DNS hierarchy every time a domain is queried.</p>
+<h3 id="where-does-dns-caching-occur">Where does DNS caching occur?<a class="headerlink" href="#where-does-dns-caching-occur" title="Permanent link">&para;</a></h3>
+<p>DNS records are cached at various points in the resolution process. The duration for which a record is cached is determined by its time-to-live (TTL) value.</p>
+<p><strong>At the local machine</strong>: Devices like computers and smartphones have local DNS caches. When you visit a website, your device's DNS resolver stores the resolved IP address along with the associated domain name in its cache. This way, if you visit the same website again or access resources on the same domain, the DNS resolution process is faster.</p>
+<p><strong>At the recursive DNS server</strong>: Recursive DNS servers, often maintained by ISPs and other organizations, cache DNS records. This benefits multiple users within the same network accessing the same domain, as the cached record can be provided without querying the entire DNS hierarchy again.</p>
+<p><strong>At the authoritative DNS server</strong>: While it might seem counterintuitive, even authoritative DNS servers (which hold the official domain records) use caching. This helps in efficiently handling high query volumes and reduces redundant processing. </p>
+<p><strong>Note</strong>: Cached DNS records can become outdated if the original record changes. However, outdated cache entries are not a major concern in the DNS system. They will be automatically removed when their TTL expires.</p>
+<h3 id="dns-propagation">DNS propagation<a class="headerlink" href="#dns-propagation" title="Permanent link">&para;</a></h3>
+<p>After registering or updating a domain, there might be a delay before the domain is accessible universally. This delay is called DNS Propagation.</p>
+<p>Let’s try to understand this concept with the help of an example. </p>
+<p>Imagine you've registered a domain, mywebsite.com, with GoDaddy, a popular domain registrar. If you try to access this domain immediately after registration, you might encounter issues.</p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!FTpt!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcdca2ea4-1490-443c-9883-e431c1394bc3_1600x555.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!FTpt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcdca2ea4-1490-443c-9883-e431c1394bc3_1600x555.png">https://substackcdn.com/image/fetch/$s_!FTpt!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcdca2ea4-1490-443c-9883-e431c1394bc3_1600x555.png</a>)</p>
+<p>Despite updating the record at the authoritative server, many recursive DNS servers and local caches around the world might still have the old (or non-existent) record cached. Until these cached records expire (as per their TTL) and are replaced with the updated record, users might face access issues. This period of inconsistency, where different parts of the world might see different records, is DNS Propagation.</p>
+<p>Typically, most DNS propagations complete within 24-48 hours, but the commonly cited upper limit is 72 hours. However, it's essential to set reasonable TTL values to ensure rapid propagation when changes are made.</p>
+<h2 id="dns-resource-records-rrs">DNS Resource Records (RRs)<a class="headerlink" href="#dns-resource-records-rrs" title="Permanent link">&para;</a></h2>
+<p>Now, let’s talk about how data is being stored in DNS databases. </p>
+<p>Data in DNS is stored in the form of Resource Records (RRs). When a device queries a DNS server about a domain name, the server provides the relevant RRs, helping the device access the desired resource on the internet.</p>
+<p>Here is the structure of a DNS resource record:</p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!-tUg!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff3c5ba97-c19c-4a0c-9b0f-128f9f5413f9_1188x489.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!-tUg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff3c5ba97-c19c-4a0c-9b0f-128f9f5413f9_1188x489.png">https://substackcdn.com/image/fetch/$s_!-tUg!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff3c5ba97-c19c-4a0c-9b0f-128f9f5413f9_1188x489.png</a>)</p>
+<p>Most of the fields in the RR are self-explanatory. However, we would like to discuss the <strong>Type</strong> field in more detail. </p>
+<p>There are different types of DNS resource records, but here we discuss four common RR types in DNS:</p>
+<p>Type A record (Address record): Maps a domain name to an IPv4 address. It's used to translate human-readable domain names into numerical IP addresses as shown below.</p>
+<p>Type <strong>NS</strong> record (Name Server record): Specifies the authoritative name servers for a domain. These name servers hold the official DNS records for the domain.</p>
+<p>Type <strong>CNAME</strong> record (Canonical Name record): Creates an alias for a domain name, pointing it to another domain's canonical (real) name. </p>
+<p>Type <strong>MX</strong> record (Mail Exchange record): Specifies the mail servers responsible for receiving email messages for a domain.</p>
+<p>The below illustration shows these four types when used in a DNS query and their corresponding DNS responses. </p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!MUtQ!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F887873eb-a776-44b4-84b4-2485ea590992_1600x1406.png" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!MUtQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F887873eb-a776-44b4-84b4-2485ea590992_1600x1406.png">https://substackcdn.com/image/fetch/$s_!MUtQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F887873eb-a776-44b4-84b4-2485ea590992_1600x1406.png</a>)</p>
+<h2 id="dynamic-dns">Dynamic DNS<a class="headerlink" href="#dynamic-dns" title="Permanent link">&para;</a></h2>
+<p>An essential extension of DNS is the Dynamic DNS (DDNS). This service allows users to automatically update the mapping between domain names and IP addresses whenever the IP address changes. The primary use-case for Dynamic DNS is to support hosts that have dynamic IP addresses, like those assigned by many residential ISPs. DDNS is invaluable for individuals and small businesses wanting to host services, websites, or devices on networks with dynamic IP addresses. It ensures consistent remote access by providing a stable domain name that always points to the current IP address, even if that address changes frequently.</p>
+<h2 id="dns-and-anycast">DNS and Anycast<a class="headerlink" href="#dns-and-anycast" title="Permanent link">&para;</a></h2>
+<p>Anycast is a network addressing and routing methodology where multiple servers share the same IP address. When a client sends a request to an Anycast IP address, the network determines the closest server (in terms of routing efficiency) to serve that request. Using Anycast in DNS provides benefits such as faster response times due to reduced latency, better load distribution among servers, and enhanced redundancy. If one server fails, the network automatically reroutes requests to another available server. Many TLD name servers and major DNS service providers leverage Anycast to improve the performance, reliability, and resilience of their services.</p>
+<h2 id="dns-security">DNS Security<a class="headerlink" href="#dns-security" title="Permanent link">&para;</a></h2>
+<p>Now that you understand what the DNS does, you can see how absolutely critical it is to the functioning of the internet. If the DNS stopped working, it’d be impossible to contact any host unless you knew its IP address, which means practically never. So it's critical the DNS be protected. </p>
+<p>Below, we discuss some of the most popular security protocols to protect DNS:</p>
+<h3 id="dnssec">DNSSEC<a class="headerlink" href="#dnssec" title="Permanent link">&para;</a></h3>
+<p>Domain Name System Security Extensions (DNSSEC) is a set of extensions to DNS that adds an additional layer of security by digitally signing DNS data. It helps in ensuring the authenticity and integrity of DNS responses, thus mitigating DNS spoofing and cache poisoning attacks.</p>
+<p>The benefits of DNSSEC include:</p>
+<ul>
+<li>
+<p><strong>Data Integrity</strong>: It ensures that DNS data has not been altered in transit, providing data integrity.</p>
+</li>
+<li>
+<p><strong>Authentication</strong>: It allows resolvers to authenticate that the DNS data they receive is from an authoritative source.</p>
+</li>
+<li>
+<p><strong>Trustworthiness</strong>: It builds a chain of trust from the root zone down to individual domains, making it harder for attackers to spoof DNS data.</p>
+</li>
+</ul>
+<p><strong>Note</strong>: DNSSEC authenticates and assures data integrity but doesn't encrypt DNS exchanges. For encryption, protocols like DNS over HTTPS (DoH) and DNS over TLS (DoT) are employed, as described next. </p>
+<h3 id="dns-over-https-doh">DNS-over-HTTPS (DoH)<a class="headerlink" href="#dns-over-https-doh" title="Permanent link">&para;</a></h3>
+<p>DNS over HTTPS (DoH) is a protocol that enhances the privacy and security of DNS queries by encrypting them within the HTTPS (Hypertext Transfer Protocol Secure) protocol. With DoH, the DNS resolver uses the HTTPS protocol to send and receive DNS queries and responses. </p>
+<h3 id="dns-over-tls-dot">DNS-over-TLS (DoT)<a class="headerlink" href="#dns-over-tls-dot" title="Permanent link">&para;</a></h3>
+<p>DNS over TLS (DoT) is an alternative to DoH. Like DNS over HTTPS, it enhances the privacy and security of DNS queries by encrypting them using the Transport Layer Security (TLS) protocol. With DNS over TLS, the DNS resolver establishes an encrypted TLS connection with your device to transmit DNS queries and responses. </p>
+<p>Both of these protocols provide similar benefits in terms of protecting DNS traffic from eavesdropping and tampering. We are going to list some of the key benefits of DoH and DoT below:</p>
+<p>Privacy: Both DoH and DoT encrypt your DNS queries, preventing third parties, including ISPs, from monitoring and intercepting your browsing history. This helps protect your online privacy.</p>
+<p><strong>Security</strong>: Encrypting DNS queries helps prevent DNS spoofing and man-in-the-middle attacks, where malicious actors could intercept DNS traffic and redirect it to malicious websites.</p>
+<p><strong>Censorship Resistance</strong>: DoH and DoT can bypass some forms of DNS-based censorship or content filtering, as it makes it harder for authorities to inspect and block specific DNS requests.</p>
+<p><strong>Improved Trust</strong>: By leveraging the security mechanisms of HTTPS and TLS, DoH and DoT add an additional layer of trust to DNS resolution, making it more resistant to attacks and tampering.</p>
+<p>Since both DoH and DoT provide similar benefits, the natural question is, when to use which one? </p>
+<p>The answer to this question depends on various factors, and neither is inherently better than the other. Here are the key differences between the two protocols:</p>
+<p>[</p>
+<p><img alt="" src="https://substackcdn.com/image/fetch/$s_!ob6N!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffab41b83-3fb4-4567-83ac-fb1cf8ae085a_1646x1045.jpeg" /></p>
+<p>](<a href="https://substackcdn.com/image/fetch/$s_!ob6N!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffab41b83-3fb4-4567-83ac-fb1cf8ae085a_1646x1045.jpeg">https://substackcdn.com/image/fetch/$s_!ob6N!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffab41b83-3fb4-4567-83ac-fb1cf8ae085a_1646x1045.jpeg</a>)</p>
+<h2 id="common-security-threats-to-dns">Common Security Threats to DNS<a class="headerlink" href="#common-security-threats-to-dns" title="Permanent link">&para;</a></h2>
+<p>Now that we have explained popular security protocols in DNS, let’s briefly describe some of the common security threats to DNS and ways to protect against them.</p>
+<h3 id="dns-cache-poisoning">DNS Cache Poisoning<a class="headerlink" href="#dns-cache-poisoning" title="Permanent link">&para;</a></h3>
+<p>DNS cache poisoning occurs when malicious DNS data is introduced into the DNS resolver's cache, leading it to direct users to malicious websites. DNS cache poisoning is also known as ‘DNS Spoofing’. To protect against this threat, we can:</p>
+<ul>
+<li>
+<p>Implement DNSSEC (DNS Security Extensions) to add cryptographic signatures to DNS records, ensuring data integrity. </p>
+</li>
+<li>
+<p>Use DNS servers that implement query-response validation to prevent caching of malicious data.</p>
+</li>
+<li>
+<p>Regularly update and patch DNS servers to fix vulnerabilities that could be exploited for cache poisoning.</p>
+</li>
+</ul>
+<h3 id="distributed-denial-of-service-ddos-attacks">Distributed Denial of Service (DDoS) Attacks<a class="headerlink" href="#distributed-denial-of-service-ddos-attacks" title="Permanent link">&para;</a></h3>
+<p>A DDoS attack is a malicious attempt to overwhelm and disrupt the normal functioning of DNS servers by flooding them with a massive volume of traffic, rendering them unavailable. To mitigate DDoS attacks:</p>
+<ul>
+<li>
+<p>Distribute DNS servers across multiple locations and use load balancing to handle traffic spikes.</p>
+</li>
+<li>
+<p>Implement rate limiting and traffic filtering rules on your DNS servers.</p>
+</li>
+</ul>
+<h3 id="man-in-the-middle-mitm-attacks">Man-in-the-Middle (MitM) Attacks<a class="headerlink" href="#man-in-the-middle-mitm-attacks" title="Permanent link">&para;</a></h3>
+<p>In a MitM attack, an attacker intercepts DNS traffic to redirect users to malicious sites or eavesdrop on their communications. To protect against MitM attacks:</p>
+<ul>
+<li>
+<p>Use DNSSEC to validate the authenticity of DNS responses.</p>
+</li>
+<li>
+<p>Implement DNS over HTTPS (DoH) or DNS over TLS (DoT) to encrypt DNS traffic. </p>
+</li>
+<li>
+<p>Monitor network traffic for unusual DNS resolution patterns.</p>
+</li>
+</ul>
+<h3 id="dns-hijacking">DNS Hijacking<a class="headerlink" href="#dns-hijacking" title="Permanent link">&para;</a></h3>
+<p>DNS hijacking occurs when attackers gain control of a domain's DNS settings and redirect traffic to malicious servers. Protect against DNS hijacking by:</p>
+<ul>
+<li>
+<p>Enabling two-factor authentication (2FA) for domain registrar accounts.</p>
+</li>
+<li>
+<p>Monitoring DNS records for unauthorized changes.</p>
+</li>
+</ul>
+<p>DNS security requires a multi-layered approach, including a combination of encryption, access controls, monitoring, and patch management. Regularly review and update your DNS security </p>
+<p>practices to adapt to evolving threats.</p>
+<h2 id="dns-for-ipv6">DNS for IPv6<a class="headerlink" href="#dns-for-ipv6" title="Permanent link">&para;</a></h2>
+<p>DNS for IPv6, often referred to as DNS6, serves a similar fundamental purpose as DNS for IPv4, but it is adapted to the IPv6 addressing scheme and offers some improvements and changes to accommodate the larger address space and other features of IPv6. </p>
+<p>Here’s how DNS for IPv6 differs from DNS for IPv4:</p>
+<p><strong>Address Format</strong>: IPv4 uses 32-bit addresses, while IPv6 uses 128-bit addresses. In DNS for IPv6, these longer addresses are represented using hexadecimal notation, separated by colons. For instance, an IPv6 address might look like 2001:0db8:85a3:1111:2222:3333:4444:5555.</p>
+<p><strong>AAAA Records</strong>: In DNS for IPv6, the primary record for mapping domain names to IPv6 addresses is the AAAA (pronounced "quad-A") record. This is analogous to the A record in DNS for IPv4. When you query a DNS server for the AAAA record of a domain, it returns the corresponding IPv6 address.</p>
+<p><strong>Reverse DNS</strong>: Just like in DNS for IPv4, reverse DNS lookup in DNS for IPv6 maps IPv6 addresses back to domain names. For example, if you have an IPv6 address and want to find the associated domain name, you can perform a reverse DNS lookup using a PTR record.</p>
+<p><strong>IPv6-Only DNS Servers</strong>: While DNS servers can support both IPv4 and IPv6 (dual-stack), there are also DNS servers designed to work exclusively with IPv6 without any reliance on IPv4. This is especially important in IPv6-only network environments.</p>
+<p><strong>DNSSEC for IPv6</strong>: DNSSEC (Domain Name System Security Extensions) is a security feature that is fully compatible with both DNS for IPv4 and DNS for IPv6, providing security enhancements for domain name resolution in both IP versions.</p>
+<p><strong>IPv6 Transport</strong>: DNS for IPv6 can use IPv6 transport exclusively for communication between DNS clients and servers, reducing the reliance on IPv4 for DNS resolution.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>This wraps up our discussion of the DNS, which is a critical name resolution service for the internet. We talked about crucial functions of DNS, including mapping domain names to IP addresses, managing host aliases, mail server aliases, and reverse DNS lookups. The DNS hierarchy involves root servers, top-level domain (TLD) servers, authoritative servers, and recursive DNS servers. </p>
+<p>Then, we discussed the two DNS resolution methods, iterative and recursive, which play a vital role in DNS functioning. DNS caching optimizes resolution speed by storing results for a set time. DNS Resource Records (RRs) store data in DNS databases, including various record types like Type A, NS, CNAME, and MX records. Lastly, we presented some of the common threats to DNS and ways to avoid them.</p>
+<p>Keep exploring, keep learning.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["navigation.tabs","navigation.sections","navigation.top","search.highlight","search.suggest","content.code.copy"],"search":"../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.16f8adc2.min.js"></script>
+      
+    
+  </body>
+</html>

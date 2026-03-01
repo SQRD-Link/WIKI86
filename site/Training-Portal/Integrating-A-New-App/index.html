@@ -1,0 +1,968 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../A%20Crash%20Course%20in%20DNS%20(Domain%20Name%20System)/">
+      
+      
+        <link rel="next" href="../Technical-Setup/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.24">
+    
+    
+      
+        <title>Integrating a New Application (Package Pro) Tutorial - WIKI86</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.28978c9b.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.dfe2e883.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#integrating-a-new-application-package-pro-tutorial" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="WIKI86" class="md-header__button md-logo" aria-label="WIKI86" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WIKI86
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Integrating a New Application (Package Pro) Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  Welcome to MkDocs
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../A%20Crash%20Course%20in%20DNS%20(Domain%20Name%20System)/" class="md-tabs__link">
+        
+  
+  A Crash Course in DNS (Domain Name System)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="././" class="md-tabs__link">
+          
+  
+  Training Portal
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="WIKI86" class="md-nav__button md-logo" aria-label="WIKI86" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    WIKI86
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to MkDocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../A%20Crash%20Course%20in%20DNS%20(Domain%20Name%20System)/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Crash Course in DNS (Domain Name System)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Portal
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Training Portal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrating a New Application (Package Pro) Tutorial
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrating a New Application (Package Pro) Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-the-frontend-static-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 1: The Frontend (Static Files)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-2-the-database-app-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 2: The Database "App" Entity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 2: The Database &quot;App&quot; Entity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-missing-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding Missing Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-3-running-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 3: Running Migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-4-seeding-the-data-the-tricky-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 4: Seeding The Data (The Tricky Part!)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 4: Seeding The Data (The Tricky Part!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-41-the-app-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.1: The App Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-42-realizing-we-forgot-the-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.2: Realizing We Forgot the Cases!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-43-extracting-data-from-javascript" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.3: Extracting Data from Javascript
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-fixing-the-easyadmin-dashboard-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 5: Fixing the EasyAdmin Dashboard Error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Technical-Setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training Portal Technical Setup &amp; Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation_plan_authentication%20and%20leaderboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Plan: User Tracking &amp; Leaderboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-1-the-frontend-static-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 1: The Frontend (Static Files)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-2-the-database-app-entity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 2: The Database "App" Entity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 2: The Database &quot;App&quot; Entity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-missing-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding Missing Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-3-running-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 3: Running Migrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-4-seeding-the-data-the-tricky-part" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 4: Seeding The Data (The Tricky Part!)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Chapter 4: Seeding The Data (The Tricky Part!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-41-the-app-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.1: The App Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-42-realizing-we-forgot-the-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.2: Realizing We Forgot the Cases!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-43-extracting-data-from-javascript" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.3: Extracting Data from Javascript
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chapter-5-fixing-the-easyadmin-dashboard-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chapter 5: Fixing the EasyAdmin Dashboard Error
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="integrating-a-new-application-package-pro-tutorial">Integrating a New Application (Package Pro) Tutorial<a class="headerlink" href="#integrating-a-new-application-package-pro-tutorial" title="Permanent link">&para;</a></h1>
+<p>This tutorial explains step-by-step how we integrated "Package Pro" into the Training Portal. The goal is for you to understand the <em>why</em> and <em>how</em> behind each change, from the frontend static files all the way to the Symfony backend database and EasyAdmin dashboard.</p>
+<p>Whether you replicate this for another app or just want to understand the codebase better, these chapters will guide you through the process we used.</p>
+<hr />
+<h2 id="chapter-1-the-frontend-static-files">Chapter 1: The Frontend (Static Files)<a class="headerlink" href="#chapter-1-the-frontend-static-files" title="Permanent link">&para;</a></h2>
+<p><strong>What we did:</strong> We copied the <code>package-pro</code> folder into the <code>public/</code> directory of the Symfony project.</p>
+<p><strong>Why:</strong> The Training Portal is designed with a decoupled architecture. The "games" (DNS Detective, Package Pro) are standalone static applications written in raw HTML, CSS, and JS. Symfony does not use Twig to render their inner logic. By placing the folder in <code>public/package-pro</code>, the web server (or the Symfony local server) serves those static files directly at <code>http://localhost:8000/package-pro/</code>. </p>
+<p>This keeps the frontend completely isolated. Symfony's main job is simply tracking <em>progress</em> and serving as an admin interface to manage the data.</p>
+<hr />
+<h2 id="chapter-2-the-database-app-entity">Chapter 2: The Database "App" Entity<a class="headerlink" href="#chapter-2-the-database-app-entity" title="Permanent link">&para;</a></h2>
+<p>To make Package Pro show up in the EasyAdmin dashboard (the portal backend), we needed to tell the database that this app exists. The blueprint for database tables in Symfony is an <strong>Entity</strong>.</p>
+<h3 id="adding-missing-fields">Adding Missing Fields<a class="headerlink" href="#adding-missing-fields" title="Permanent link">&para;</a></h3>
+<p><strong>What we did:</strong> We modified <code>src/Entity/App.php</code>. We noticed that when we tried to seed the database, properties like <code>description</code>, <code>icon</code>, <code>colorTheme</code>, and <code>isActive</code> were missing, causing a fatal PHP error.</p>
+<p><strong>Why:</strong> In Doctrine (Symfony's database ORM tool), PHP class properties mapped with <code>#[ORM\Column]</code> attributes define the actual table columns.
+We added:
+<div class="language-php highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="x">#[ORM\Column(type: &#39;text&#39;, nullable: true)]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="x">public ?string $description = null;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="x">#[ORM\Column(length: 50, nullable: true)]</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="x">public ?string $icon = null;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="x">#[ORM\Column(length: 50, nullable: true)]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="x">public ?string $colorTheme = null;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="x">#[ORM\Column(type: &#39;boolean&#39;, options: [&#39;default&#39; =&gt; true])]</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="x">public bool $isActive = true;</span>
+</span></code></pre></div></p>
+<p><em>Note on <code>isActive</code>:</em> We initially forgot the <code>options: ['default' =&gt; true]</code>. Because the database <em>already had data</em> (the DNS Detective row), adding a <code>NOT NULL</code> boolean column (<code>bool $isActive</code> without a <code>?</code>) made SQLite/Database complain: "Cannot add a NOT NULL column without a default value." We fixed that by providing the default value directly in the ORM attribute.</p>
+<hr />
+<h2 id="chapter-3-running-migrations">Chapter 3: Running Migrations<a class="headerlink" href="#chapter-3-running-migrations" title="Permanent link">&para;</a></h2>
+<p><strong>What we did:</strong> We ran <code>php bin/console make:migration</code> and then <code>php bin/console doctrine:migrations:migrate</code>.</p>
+<p><strong>Why:</strong> Editing an Entity file in PHP does not automatically change the database.
+1. <code>make:migration</code> compares your PHP files to your current database schema and generates a raw SQL file (<code>VersionXXXX.php</code> in the <code>migrations/</code> folder) containing the <code>ALTER TABLE</code> commands needed to bridge the gap.
+2. <code>doctrine:migrations:migrate</code> safely executes that SQL file. This ensures the database stays perfectly synced with your code.</p>
+<hr />
+<h2 id="chapter-4-seeding-the-data-the-tricky-part">Chapter 4: Seeding The Data (The Tricky Part!)<a class="headerlink" href="#chapter-4-seeding-the-data-the-tricky-part" title="Permanent link">&para;</a></h2>
+<p>To create the initial data, we wrote a PHP script: <code>bin/seed_package_pro.php</code>.</p>
+<h3 id="step-41-the-app-table">Step 4.1: The <code>App</code> Table<a class="headerlink" href="#step-41-the-app-table" title="Permanent link">&para;</a></h3>
+<p><strong>What we did:</strong> We created a new instance of the <code>App</code> entity and assigned it the values for Package Pro.
+<div class="language-php highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="x">$app = new App();</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="x">$app-&gt;name = &#39;Package Pro&#39;;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="x">$app-&gt;slug = &#39;package-pro&#39;;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="x">// ... set description, icon, etc.</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="x">$em-&gt;persist($app);</span>
+</span></code></pre></div>
+<strong>Why:</strong> <code>$em</code> is the <code>EntityManager</code>. Calling <code>persist()</code> tells Doctrine "start tracking this object". Calling <code>flush()</code> actually writes it to the database with an <code>INSERT</code> statement.</p>
+<h3 id="step-42-realizing-we-forgot-the-cases">Step 4.2: Realizing We Forgot the Cases!<a class="headerlink" href="#step-42-realizing-we-forgot-the-cases" title="Permanent link">&para;</a></h3>
+<p>Initially, we stopped there. Package Pro showed up on the EasyAdmin dashboard... but it was completely empty inside. It had no "Course Cases" or "Quiz Questions". We hadn't seeded them!</p>
+<h3 id="step-43-extracting-data-from-javascript">Step 4.3: Extracting Data from Javascript<a class="headerlink" href="#step-43-extracting-data-from-javascript" title="Permanent link">&para;</a></h3>
+<p><strong>What we did:</strong> The <code>app.js</code> file for Package Pro contained a massive <code>CASES</code> Javascript object storing all the scenario text, questions, and answers. Typing them out by hand in PHP would be terrible.
+Instead, we:
+1. Wrote a quick Node.js script to extract the <code>CASES</code> block from <code>app.js</code> and save it as a JSON file (<code>/tmp/package_pro_cases.json</code>).
+2. Updated our PHP seed script to <code>file_get_contents()</code> and <code>json_decode()</code> that JSON back into a PHP array.
+3. Created <code>CourseCase</code>, <code>Step</code>, and <code>Question</code> entities in a loop for every case we found.</p>
+<p><div class="language-php highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="x">foreach ($casesData as $data) {</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="x">    // 1. Create the Course Case</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="x">    $case = new CourseCase();</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="x">    $case-&gt;app = $app; // Link it back to the main App!</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="x">    $case-&gt;title = $data[&#39;title&#39;];</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="x">    $em-&gt;persist($case);</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="x">    // 2. Loop through steps in the case</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="x">    foreach ($data[&#39;steps&#39;] as $stepData) {</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="x">        $step = new Step();</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="x">        $step-&gt;courseCase = $case; // Link it back to the Case</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="x">        // ... set step properties</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="x">        $em-&gt;persist($step);</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="x">        // 3. Loop through quiz questions in the step</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="x">        foreach ($stepData[&#39;questions&#39;] as $qData) {</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="x">            $q = new Question();</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="x">            $q-&gt;step = $step; // Link it back to the Step</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="x">            // ... set question properties</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="x">            $em-&gt;persist($q);</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="x">        }</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="x">    }</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="x">}</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="x">$em-&gt;flush(); // Commit all 150+ rows to the database at once!</span>
+</span></code></pre></div>
+<strong>Why:</strong> A relational database requires these connections. An <code>App</code> One-to-Many <code>CourseCases</code>. A <code>CourseCase</code> One-to-Many <code>Steps</code>. And a <code>Step</code> One-to-Many <code>Questions</code>. Setting these properties effectively creates the Foreign Key relationships.</p>
+<hr />
+<h2 id="chapter-5-fixing-the-easyadmin-dashboard-error">Chapter 5: Fixing the EasyAdmin Dashboard Error<a class="headerlink" href="#chapter-5-fixing-the-easyadmin-dashboard-error" title="Permanent link">&para;</a></h2>
+<p><strong>What we did:</strong> Early on, when you tried to load <code>/admin</code>, EasyAdmin threw a fatal runtime error: <code>"Call to undefined method MenuItem::linkToCrud()"</code>. We fixed this in <code>DashboardController.php</code>.</p>
+<p><strong>Why:</strong> The code you had earlier was for EasyAdmin version 3.x. However, the project's <code>composer.json</code> specified <code>"easycorp/easyadmin-bundle": "*"</code>, which installed the newest Version 4.x. </p>
+<p>In EasyAdmin 4, <code>MenuItem::linkToCrud()</code> was deleted. Replacing it was easy:
+<div class="language-diff highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="gd">- yield MenuItem::linkToCrud(&#39;Apps&#39;, &#39;fa fa-graduation-cap&#39;, App::class);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="gi">+ yield MenuItem::linkTo(AppCrudController::class, &#39;Apps&#39;, &#39;fa fa-graduation-cap&#39;);</span>
+</span></code></pre></div>
+You now pass the fully qualified class name of the <em>Controller</em> rather than the <em>Entity</em>, using the newer <code>linkTo()</code> method.</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>You now have a complete, working knowledge of the data pipeline for your portal!
+1. <strong>Frontend:</strong> Static HTML/JS in <code>public/{app-name}</code>
+2. <strong>Backend Structure:</strong> <code>src/Entity/{Name}.php</code> models the tables.
+3. <strong>Database Changes:</strong> <code>make:migration</code> -&gt; <code>migrate</code>
+4. <strong>Data Population:</strong> Custom <code>bin/seed_{app}.php</code> scripts to parse text/JSON and <code>persist()</code> objects.
+5. <strong>Dashboard UI:</strong> EasyAdmin <code>...CrudController.php</code> files automatically render grids based on the database data!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation.tabs","navigation.sections","navigation.top","search.highlight","search.suggest","content.code.copy"],"search":"../../assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.16f8adc2.min.js"></script>
+      
+    
+  </body>
+</html>
