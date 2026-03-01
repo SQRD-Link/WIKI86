@@ -184,8 +184,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8c85468ff05c9bdf",
+  "active": "ed14d188e20aac29",
   "lastOpenFiles": [
+    "docs/Training-Portal/training-portal-plesk-deployment.md",
     "zensical.toml",
     "site/index.html",
     "site/A Crash Course in DNS (Domain Name System)/index.html",
@@ -196,7 +197,6 @@
     "site/Training-Portal/implementation_plan_authentication and leaderboard",
     "site/Training-Portal/Technical-Setup",
     "site/Training-Portal/Integrating-A-New-App",
-    "site/Training-Portal",
     "site/assets/images/favicon.png",
     "docs/Training-Portal/implementation_plan_authentication and leaderboard.md",
     "docs/Training-Portal/Technical-Setup.md",
